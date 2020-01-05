@@ -42,4 +42,25 @@ def get_pet_labels(image_dir):
     """
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+
+    filename_list = listdir(image_dir)
+    
+    results_dic = dict()
+    for filename in filename_list:
+      pet = get_name_from_filename(filename)      
+      results_dic[filename] = pet
+
+    return results_dic
+
+def get_name_from_filename(filename):
+  word_list = filename.lower().split("_")
+  
+  pet_name = ""  
+  # Loops to check if word in pet name is only
+  # alphabetic characters - if true append word
+  # to pet_name separated by trailing space 
+  for word in word_list:
+      if word.isalpha():
+          pet_name += word + " "
+
+  return pet_name.strip()

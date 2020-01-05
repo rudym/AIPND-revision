@@ -65,4 +65,25 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
+
+    # Populates dictionary with whether or not labels indicate a dog image (idx 3&4)
+    for filename in results_dic:
+        # Key already exists, extend values to end of list for idx 3 & 4
+        results_dic[filename].extend([pet_label_is_dog[idx], 
+                                          classifier_label_is_dog[idx]])
+
+    for key in results_dic:
+      print("\nFilename=", key, "\npet_image Label=", results_dic[key][0],
+            "\nClassifier Label=", results_dic[key][1], "\nmatch=",
+            results_dic[key][2], "\nImage is dog=", results_dic[key][3],
+            "\nClassifier is dog=", results_dic[key][4])                        
+
+      # Provides classifications of the results
+      if sum(results_dic[key][2:]) == 3:
+          print("*Breed Match*")
+      if sum(results_dic[key][3:]) == 2:
+          print("*Is-a-Dog Match*")
+      if sum(results_dic[key][3:]) == 0 and results_dic[key][2] == 1:
+          print("*NOT-a-Dog Match*")
+
     None 
