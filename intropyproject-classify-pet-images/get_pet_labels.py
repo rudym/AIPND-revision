@@ -48,7 +48,7 @@ def get_pet_labels(image_dir):
     results_dic = dict()
     for filename in filename_list:
       pet = get_name_from_filename(filename)      
-      results_dic[filename] = pet
+      results_dic[filename] = [pet]
 
     return results_dic
 
