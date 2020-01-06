@@ -39,7 +39,7 @@ def get_pet_labels(image_dir):
     # Replace None with the results_dic dictionary that you created with this
     # function
 
-    filename_list = listdir(image_dir)
+    filename_list = [f for f in listdir(image_dir) if not f.startswith('.')]
     
     results_dic = dict()
     for filename in filename_list:
@@ -49,7 +49,7 @@ def get_pet_labels(image_dir):
     return results_dic
 
 def get_name_from_filename(filename):
-  word_list = filename.lower().split("_")
+  word_list = filename.split('.')[0].lower().split("_")
   
   pet_name = ""  
   # Loops to check if word in pet name is only
