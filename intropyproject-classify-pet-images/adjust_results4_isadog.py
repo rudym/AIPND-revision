@@ -72,8 +72,6 @@ def adjust_results4_isadog(results_dic, dogfile):
       classifier_name_is_dog = int(classifier_name in dognames)
       
       results_dic[filename].extend([pet_name_is_dog, classifier_name_is_dog])
-    
-    print(results_dic)
 
 
 def retrieve_dog_names(dogfile):
