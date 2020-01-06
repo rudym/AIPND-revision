@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
-# REVISED DATE: 
+# PROGRAMMER: Rodion M.
+# DATE CREATED: 2020/01/06
+# REVISED DATE:
 # PURPOSE: Create a function classify_images that uses the classifier function 
 #          to create the classifier labels and then compares the classifier 
 #          labels to the pet image labels. This function inputs:
@@ -23,12 +23,7 @@
 # Imports classifier function for using CNN to classify images 
 from classifier import classifier 
 
-# TODO 3: Define classify_images function below, specifically replace the None
-#       below by the function definition of the classify_images function. 
-#       Notice that this function doesn't return anything because the 
-#       results_dic dictionary that is passed into the function is a mutable 
-#       data type so no return is needed.
-# 
+
 def classify_images(images_dir, results_dic, model):
     """
     Creates classifier labels with classifier function, compares pet labels to 
@@ -65,25 +60,13 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
-
-    # Populates dictionary with whether or not labels indicate a dog image (idx 3&4)
     for filename in results_dic:
-        # Key already exists, extend values to end of list for idx 3 & 4
-        results_dic[filename].extend([pet_label_is_dog[idx], 
-                                          classifier_label_is_dog[idx]])
+      filepath = images_dir + filename
 
-    for key in results_dic:
-      print("\nFilename=", key, "\npet_image Label=", results_dic[key][0],
-            "\nClassifier Label=", results_dic[key][1], "\nmatch=",
-            results_dic[key][2], "\nImage is dog=", results_dic[key][3],
-            "\nClassifier is dog=", results_dic[key][4])                        
+      image_classification = classifier(filepath, model)
 
-      # Provides classifications of the results
-      if sum(results_dic[key][2:]) == 3:
-          print("*Breed Match*")
-      if sum(results_dic[key][3:]) == 2:
-          print("*Is-a-Dog Match*")
-      if sum(results_dic[key][3:]) == 0 and results_dic[key][2] == 1:
-          print("*NOT-a-Dog Match*")
+      pet_label = results_dic[filename][0]
 
-    None 
+      is_label_and_classifier_match = int(pet_label in image_classification.lower())
+
+      results_dic[filename].extend([image_classification, is_label_and_classifier_match])
