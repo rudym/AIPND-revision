@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/adjust_results4_isadog.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER: Rodion M.
+# DATE CREATED: 2020/01/06
 # REVISED DATE: 
 # PURPOSE: Create a function adjust_results4_isadog that adjusts the results 
 #          dictionary to indicate whether or not the pet image label is of-a-dog, 
@@ -31,12 +31,7 @@
 #           label isn't a dog.
 #
 ##
-# TODO 4: Define adjust_results4_isadog function below, specifically replace the None
-#       below by the function definition of the adjust_results4_isadog function. 
-#       Notice that this function doesn't return anything because the 
-#       results_dic dictionary that is passed into the function is a mutable 
-#       data type so no return is needed.
-# 
+
 def adjust_results4_isadog(results_dic, dogfile):
     """
     Adjusts the results dictionary to determine if classifier correctly 
@@ -67,4 +62,42 @@ def adjust_results4_isadog(results_dic, dogfile):
     Returns:
            None - results_dic is mutable data type so no return needed.
     """           
-    None
+    dognames = retrieve_dog_names(dogfile)
+
+    for filename in results_dic:
+      pet_name = results_dic[filename][0]
+      classifier_name = results_dic[filename][1]
+      
+      pet_name_is_dog = int(pet_name in dognames)
+      classifier_name_is_dog = int(classifier_name in dognames)
+      
+      results_dic[filename].extend([pet_name_is_dog, classifier_name_is_dog])
+    
+    print(results_dic)
+
+
+def retrieve_dog_names(dogfile):
+  """
+  Retrieves dog names from the file.
+  Parameters:    
+    dogfile - A text file that contains names of all dogs from the classifier
+              function and dog names from the pet image files. This file has 
+              one dog name per line dog names are all in lowercase with 
+              spaces separating the distinct words of the dog name. Dog names
+              from the classifier function can be a string of dog names separated
+              by commas when a particular breed of dog has multiple dog names 
+              associated with that breed (ex. maltese dog, maltese terrier, 
+              maltese) (string - indicates text file's filename)
+  Returns:
+          Dictionary containing 'key' as a dog name and 'value' = 1:int
+  """
+  dognames = dict()    
+
+  file = open(dogfile, 'r')
+  for line in file:
+    for name in line.split(','):
+      name = name.strip()
+      dognames[name] = 1    
+  file.close()
+
+  return dognames
